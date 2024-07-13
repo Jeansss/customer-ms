@@ -42,6 +42,15 @@ describe('CustomerController', () => {
       expect(result).toEqual(customers);
       expect(customerUseCases.getAllCustomers).toHaveBeenCalled();
     });
+
+    it('should return an empty array when no customers are found', async () => {
+      const customers = [];
+      customerUseCases.getAllCustomers.mockResolvedValue(customers);
+
+      const result = await customerController.getAllCustomers();
+      expect(result).toEqual(customers);
+      expect(customerUseCases.getAllCustomers).toHaveBeenCalled();
+    });
   });
 
   describe('createCustomer', () => {
@@ -65,6 +74,17 @@ describe('CustomerController', () => {
       const result = await customerController.getCustomerById(customerId);
       expect(result).toEqual(customer);
       expect(customerUseCases.getCustomerById).toHaveBeenCalledWith(customerId);
+    });
+
+    it('should throw an error when the ID is invalid', async () => {
+      const customerId = 'invalid-id';
+      customerUseCases.getCustomerById.mockRejectedValue(new Error('Invalid ID'));
+      
+      try {
+        await customerController.getCustomerById(customerId);
+      } catch (error) {
+        expect(error.message).toEqual('Invalid ID');
+      }
     });
   });
 
