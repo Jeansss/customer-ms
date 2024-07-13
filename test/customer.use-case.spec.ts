@@ -166,10 +166,14 @@ describe('CustomerUseCases', () => {
       dataServices.customers.get.mockResolvedValue(null);
       dataServices.customers.delete.mockResolvedValue(customer);
 
-      await customerUseCases.delete(customerId);
-      
-      expect(dataServices.customers.get).toHaveBeenCalledWith(customerId);
-      expect(dataServices.customers.delete).toHaveBeenCalledWith(customerId);
+      try {
+        await customerUseCases.delete(customerId);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.message).toBe(`Customer with id: ${customerId} not found at database.`);
+        expect(dataServices.customers.get).toHaveBeenCalledWith(customerId);
+        expect(dataServices.customers.delete).not.toHaveBeenCalled();
+      }
     });
   });
 });

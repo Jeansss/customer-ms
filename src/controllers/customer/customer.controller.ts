@@ -21,7 +21,7 @@ export class CustomerController {
     @Get()
     async getAllCustomers(): Promise<Customer[]> {
         this.logger.log(`getAllCustomers() - Start`);
-        return this.customerUseCases.getAllCustomers();
+        return await this.customerUseCases.getAllCustomers();
     }
 
     /**
@@ -32,7 +32,7 @@ export class CustomerController {
     @Post()
     async createCustomer(@Body() customer: CustomerDTO): Promise<Customer> {
         this.logger.log(`createCustomer(CustomerDTO) - Start`);
-        return this.customerUseCases.createCustomer(customer);
+        return await this.customerUseCases.createCustomer(customer);
     }
 
     /**
@@ -43,7 +43,7 @@ export class CustomerController {
     @Get('/id/:customerId')
     async getCustomerById(@Param('customerId') customerId: string): Promise<Customer> {
         this.logger.log(`getCustomerById(string) - Start`);
-        return this.customerUseCases.getCustomerById(customerId);
+        return await this.customerUseCases.getCustomerById(customerId);
     }
 
     /**
@@ -54,7 +54,7 @@ export class CustomerController {
     @Get('/cpf/:customerCPF')
     async getCustomerByCPF(@Param('customerCPF') customerCPF: string) {
         this.logger.log(`getCustomerByCPF(string) - Start`);
-        return this.customerUseCases.getCustomerByCPF(customerCPF);
+        return await this.customerUseCases.getCustomerByCPF(customerCPF);
     }
 
     /**
@@ -67,7 +67,7 @@ export class CustomerController {
     async updateCustomer(@Param('customerId') customerId: string,
         @Body() customer: CustomerDTO): Promise<Customer> {
         this.logger.log(`updateCustomer(string, CustomerDTO) - Start`);
-        return this.customerUseCases.updateCustomer(customerId, customer);
+        return await this.customerUseCases.updateCustomer(customerId, customer);
     }
 
     /**
@@ -79,6 +79,6 @@ export class CustomerController {
     @Delete('/:customerId')
     async deleteCustomer(@Param('customerId') customerId: string): Promise<void> {
         this.logger.log(`deleteCustomer(string) - Start`);
-        this.customerUseCases.delete(customerId);
+        await this.customerUseCases.delete(customerId);
     }
 }
