@@ -34,7 +34,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=Jeansss_customer-ms
-            -Dsonar.organization=Jeansss
+            -Dsonar.organization=jeansss
             -Dsonar.sources=./src
             -Dsonar.tests=./test
             -Dsonar.test.inclusions="**/*.spec.ts"
