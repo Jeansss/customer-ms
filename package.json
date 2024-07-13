@@ -76,8 +76,7 @@
       "!src/controllers/app.controller.ts",
       "!src/core/abstracts/generic-repository.abstract.ts",
       "!src/frameworks/data-services/mongo/mongo-data-services.service.ts",
-      "!src/use-cases/customer/customer-factory.service.ts",
-      "!src/frameworks/data-services/mongo/external/mongo-generic-repository.ts"
+      "!src/use-cases/customer/customer-factory.service.ts"
     ],
     "coverageDirectory": "./coverage",
     "collectCoverage": true,

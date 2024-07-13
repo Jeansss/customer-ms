@@ -25,6 +25,32 @@ describe('CustomerRepositoryImpl', () => {
     expect(repository).toBeDefined();
   });
 
+  describe('getAll', () => {
+    it('should return an array of customers', async () => {
+      const customers = [{ name: 'Fiap Customer' } as Customer, { name: 'Mc Customer' } as Customer];
+      customerModel.find.mockReturnValue({
+        populate: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue(customers),
+      });
+
+      const result = await repository.getAll();
+      expect(result).toEqual(customers);
+      expect(customerModel.find).toHaveBeenCalled();
+    });
+
+    it('should return an empty array when no customers are found', async () => {
+      const customers = [];
+      customerModel.find.mockReturnValue({
+        populate: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue(customers),
+      });
+
+      const result = await repository.getAll();
+      expect(result).toEqual(customers);
+      expect(customerModel.find).toHaveBeenCalled();
+    });
+  });
+
   describe('getCustomerByCPF', () => {
     it('should return a customer when found', async () => {
       const customerCPF = '12345678900';
