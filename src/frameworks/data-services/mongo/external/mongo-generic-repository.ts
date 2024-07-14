@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { IGenericRepository } from 'src/core/abstracts/generic-repository.abstract';
 
@@ -15,7 +16,11 @@ export class MongoGenericRepository<T> implements IGenericRepository<T> {
   }
 
   get(id: any): Promise<T> {
-    return this._repository.findById(id).exec();
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      return this._repository.findById(id).exec();
+    } else {
+      throw new BadRequestException(`'${id}' is not a valid ObjectID`);
+    }
   }
 
   create(item: T): Promise<T> {

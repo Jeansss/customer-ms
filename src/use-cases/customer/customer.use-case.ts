@@ -1,8 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { IDataServices } from "src/core/abstracts/data-services.abstract";
 import { CustomerFactoryService } from "./customer-factory.service";
 import { CustomerDTO } from "src/dto/customer.dto";
 import { Customer } from "src/frameworks/data-services/mongo/entities/customer.model";
+import { MySqlDataServices } from "src/frameworks/data-services/mysql/mysql-data-services.service";
+import { MySqlGenericRepository } from "src/frameworks/data-services/mysql/external/mysql-generic-repository";
 
 @Injectable()
 export class CustomerUseCases {
@@ -14,16 +16,11 @@ export class CustomerUseCases {
     }
 
     async getCustomerById(id: string): Promise<Customer> {
-        if (id.match(/^[0-9a-fA-F]{24}$/)) {
-            const foundCustomer = await this.dataServices.customers.get(id);
-
-            if (foundCustomer != null) {
-                return foundCustomer;
-            } else {
-                throw new NotFoundException(`Customer with id: ${id} not found at database.`);
-            }
+        const foundCustomer = await this.dataServices.customers.get(id);
+        if (foundCustomer != null) {
+            return foundCustomer;
         } else {
-            throw new BadRequestException(`'${id}' is not a valid ObjectID`);
+            throw new NotFoundException(`Customer with id: ${id} not found at database.`);
         }
     }
 
