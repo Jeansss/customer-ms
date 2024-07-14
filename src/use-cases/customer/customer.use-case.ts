@@ -9,13 +9,13 @@ export class CustomerUseCases {
 
     constructor(private dataServices: IDataServices, private customerFactoryService: CustomerFactoryService) { }
 
-    getAllCustomers(): Promise<Customer[]> {
-        return this.dataServices.customers.getAll();
+    async getAllCustomers(): Promise<Customer[]> {
+        return await this.dataServices.customers.getAll();
     }
 
-    getCustomerById(id: string): Promise<Customer> {
+    async getCustomerById(id: string): Promise<Customer> {
         if (id.match(/^[0-9a-fA-F]{24}$/)) {
-            const foundCustomer = this.dataServices.customers.get(id);
+            const foundCustomer = await this.dataServices.customers.get(id);
 
             if (foundCustomer != null) {
                 return foundCustomer;
@@ -25,33 +25,30 @@ export class CustomerUseCases {
         } else {
             throw new BadRequestException(`'${id}' is not a valid ObjectID`);
         }
-
-
     }
 
-    getCustomerByCPF(customerCPF: string) {
-        const foundCustomer = this.dataServices.customers.getCustomerByCPF(customerCPF);
+    async getCustomerByCPF(customerCPF: string) {
+        const foundCustomer = await this.dataServices.customers.getCustomerByCPF(customerCPF);
 
         if (foundCustomer != null) {
             return foundCustomer;
         } else {
             throw new NotFoundException(`Customer with id: ${customerCPF} not found at database.`);
         }
-
     }
 
-    createCustomer(customerDTO: CustomerDTO): Promise<Customer> {
+    async createCustomer(customerDTO: CustomerDTO): Promise<Customer> {
         const newCustomer = this.customerFactoryService.createNewCustomer(customerDTO);
         return this.dataServices.customers.create(newCustomer);
     }
 
-    updateCustomer(customerId: string, customerDTO: CustomerDTO): Promise<Customer> {
+    async updateCustomer(customerId: string, customerDTO: CustomerDTO): Promise<Customer> {
         const newCustomer = this.customerFactoryService.updateCustomer(customerDTO);
         return this.dataServices.customers.update(customerId, newCustomer);
     }
 
-    delete(customerId: string) {
-        const foundCustomer = this.getCustomerById(customerId);
+    async delete(customerId: string) {
+        const foundCustomer = await this.getCustomerById(customerId);
         this.dataServices.customers.delete(customerId);
     }
 
