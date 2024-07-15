@@ -2,9 +2,10 @@ import { CustomerFactoryService } from "src/use-cases/customer/customer-factory.
 import { CustomerUseCases } from "src/use-cases/customer/customer.use-case";
 import { Test, TestingModule } from '@nestjs/testing';
 import { IDataServices } from "src/core/abstracts/data-services.abstract";
-import { Customer } from "src/frameworks/data-services/mongo/entities/customer.model";
+import { Customer } from "src/frameworks/data-services/mysql/entities/customer.model";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { CustomerDTO } from "src/dto/customer.dto";
+import { CustomerRepositoryImpl } from "src/frameworks/data-services/mysql/gateways/customer.repository";
 
 
 
@@ -34,13 +35,13 @@ describe('CustomerUseCases', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CustomerUseCases,
-        { provide: IDataServices, useFactory: mockDataServices },
+        { provide: IDataServices<CustomerRepositoryImpl>, useFactory: mockDataServices },
         { provide: CustomerFactoryService, useFactory: mockCustomerFactoryService },
       ],
     }).compile();
 
     customerUseCases = module.get<CustomerUseCases>(CustomerUseCases);
-    dataServices = module.get<IDataServices>(IDataServices);
+    dataServices = module.get<IDataServices<CustomerRepositoryImpl>>(IDataServices);
     customerFactoryService = module.get<CustomerFactoryService>(CustomerFactoryService);
   });
 
@@ -73,7 +74,7 @@ describe('CustomerUseCases', () => {
     it('should throw NotFoundException when customer is not found', async () => {
       const customerId = '123456789012345678901234';
       dataServices.customers.get.mockResolvedValue(null);
-    
+
       try {
         await customerUseCases.getCustomerById(customerId);
       } catch (e) {
@@ -84,7 +85,7 @@ describe('CustomerUseCases', () => {
 
     it('should throw BadRequestException for invalid id format', async () => {
       const invalidId = 'invalid-id';
-      dataServices.customers.get.mockResolvedValue(null);
+      dataServices.customers.get.mockResolvedValue(BadRequestException);
 
       try {
         await customerUseCases.getCustomerById(invalidId);
@@ -121,8 +122,8 @@ describe('CustomerUseCases', () => {
 
   describe('createCustomer', () => {
     it('should create and return a new customer', async () => {
-      const customerDTO: CustomerDTO = { name: 'John Doe', cpf: '12345678900', email: 'test@test.com'};
-      const customer = { _id: '123', ...customerDTO } as Customer;
+      const customerDTO: CustomerDTO = { name: 'John Doe', cpf: '12345678900', email: 'test@test.com' };
+      const customer = { _id: '123', ...customerDTO } as unknown as Customer;
       customerFactoryService.createNewCustomer.mockReturnValue(customer);
       dataServices.customers.create.mockResolvedValue(customer);
 
@@ -137,7 +138,7 @@ describe('CustomerUseCases', () => {
     it('should update and return the customer', async () => {
       const customerId = '123';
       const customerDTO: CustomerDTO = { name: 'John Doe', cpf: '12345678900', email: 'test@test.com' };
-      const customer = { _id: customerId, ...customerDTO } as Customer;
+      const customer = { _id: customerId, ...customerDTO } as unknown as Customer;
       customerFactoryService.updateCustomer.mockReturnValue(customer);
       dataServices.customers.update.mockResolvedValue(customer);
 

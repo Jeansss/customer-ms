@@ -76,7 +76,7 @@ describe('CustomerRepositoryImpl', () => {
     });
 
     it('should return a customer when found by id', async () => {
-      const customerId = '12345678900';
+      const customerId = '6693e579b37b27a17a14b5fe';
       const customer = { _id: customerId, name: 'Fiap Customer' } as unknown as Customer;
       customerModel.findById.mockReturnValue({
         exec: jest.fn().mockResolvedValue(customer),
@@ -88,7 +88,7 @@ describe('CustomerRepositoryImpl', () => {
     });
 
     it('should return null when no customer is found by id', async () => {
-      const customerId = '12345678900';
+      const customerId = '6693e579b37b27a17a14b5fe';
       customerModel.findById.mockReturnValue({
         exec: jest.fn().mockResolvedValue(null),
       });

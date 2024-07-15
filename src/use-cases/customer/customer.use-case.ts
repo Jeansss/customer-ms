@@ -1,29 +1,25 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { IDataServices } from "src/core/abstracts/data-services.abstract";
 import { CustomerFactoryService } from "./customer-factory.service";
 import { CustomerDTO } from "src/dto/customer.dto";
-import { Customer } from "src/frameworks/data-services/mongo/entities/customer.model";
+import { Customer } from "src/frameworks/data-services/mysql/entities/customer.model";
+import { CustomerRepositoryImpl } from "src/frameworks/data-services/mysql/gateways/customer.repository";
 
 @Injectable()
 export class CustomerUseCases {
 
-    constructor(private dataServices: IDataServices, private customerFactoryService: CustomerFactoryService) { }
+    constructor(private dataServices: IDataServices<CustomerRepositoryImpl>, private customerFactoryService: CustomerFactoryService) { }
 
     async getAllCustomers(): Promise<Customer[]> {
         return await this.dataServices.customers.getAll();
     }
 
     async getCustomerById(id: string): Promise<Customer> {
-        if (id.match(/^[0-9a-fA-F]{24}$/)) {
-            const foundCustomer = await this.dataServices.customers.get(id);
-
-            if (foundCustomer != null) {
-                return foundCustomer;
-            } else {
-                throw new NotFoundException(`Customer with id: ${id} not found at database.`);
-            }
+        const foundCustomer = await this.dataServices.customers.get(id);
+        if (foundCustomer != null) {
+            return foundCustomer;
         } else {
-            throw new BadRequestException(`'${id}' is not a valid ObjectID`);
+            throw new NotFoundException(`Customer with id: ${id} not found at database.`);
         }
     }
 
