@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MySqlDataServices
-  implements IDataServices, OnApplicationBootstrap {
+  implements IDataServices<CustomerRepositoryImpl>, OnApplicationBootstrap {
   customers: CustomerRepositoryImpl;
 
   constructor(
