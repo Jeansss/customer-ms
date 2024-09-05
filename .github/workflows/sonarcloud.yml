@@ -47,11 +47,6 @@ jobs:
   build:
     name: "Build and Push Docker Image to Amazon ECR"
     runs-on: ubuntu-latest
-    env:
-      DB_URL_PREFIX: mongodb+srv
-      DB_USER: user-1
-      DB_PASS: ${{secrets.DB_PASS}}
-      DB_URL_SUFIX: order-manager-environme.xuekaho.mongodb.net/order-manager?retryWrites=true&w=majority&appName=order-manager-environment-cluster
 
     steps:
     - name: Configure AWS credentials
