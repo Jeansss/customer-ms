@@ -16,7 +16,7 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
       password: process.env.MYSQL_PASSWORD,
       entities: [Customer],
       database: process.env.MYSQL_DB,
-      synchronize: false,
+      synchronize: true,
       // logging: true,
     }),
     CustomerUseCaseModule
@@ -28,4 +28,13 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
   providers: [],
 })
 
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    console.log('MySQL Config:', {
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
+      user: process.env.MYSQL_USER,
+      database: process.env.MYSQL_DB,
+    });
+  }
+ }
