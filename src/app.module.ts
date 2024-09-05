@@ -11,7 +11,7 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'database-2.cruc02goorhv.us-east-1.rds.amazonaws.com',
-      port: 5556,
+      port: 3306,
       username: 'admin',
       password: 'Nowadays*557fazom65',
       entities: [Customer],
