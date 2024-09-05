@@ -15,7 +15,7 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
       username: 'admin',
       password: 'Nowadays*557fazom65',
       entities: [Customer],
-      database: 'database-2',
+      database: 'customer',
       synchronize: true,
       // logging: true,
     }),
