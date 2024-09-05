@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 
 import { CustomerUseCaseModule } from './use-cases/customer/customer.use-cases.module';
 import { AppController } from './controllers/app.controller';
@@ -30,7 +30,7 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
 
 export class AppModule {
   constructor() {
-    console.log('MySQL Config:', {
+    Logger.log('MySQL Config:', {
       host: process.env.MYSQL_HOST,
       port: process.env.MYSQL_PORT,
       user: process.env.MYSQL_USER,
