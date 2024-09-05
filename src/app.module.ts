@@ -10,12 +10,12 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: parseInt(process.env.MYSQL_PORT),
-      username: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
+      host: 'database-2.cruc02goorhv.us-east-1.rds.amazonaws.com',
+      port: 3306,
+      username: 'admin',
+      password: 'Nowadays*557fazom65',
       entities: [Customer],
-      database: process.env.MYSQL_DB,
+      database: 'database-2',
       synchronize: true,
       // logging: true,
     }),
@@ -28,13 +28,4 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
   providers: [],
 })
 
-export class AppModule {
-  constructor() {
-    Logger.log('MySQL Config:', {
-      host: process.env.MYSQL_HOST,
-      port: process.env.MYSQL_PORT,
-      user: process.env.MYSQL_USER,
-      database: process.env.MYSQL_DB,
-    });
-  }
- }
+export class AppModule {}
