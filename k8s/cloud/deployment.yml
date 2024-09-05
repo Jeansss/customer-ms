@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-manager
+  name: customer-ms
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: order-manager
+      app: customer-ms
   template:
     metadata:
       labels:
-        app: order-manager
+        app: customer-ms
     spec:
       containers:
-      - name: order-manager
+      - name: customer-ms
         image: 975050002971.dkr.ecr.us-east-1.amazonaws.com/order-manager:latest
         ports:
         - containerPort: 80
@@ -33,21 +33,40 @@ spec:
             cpu: 10m
         imagePullPolicy: IfNotPresent
         env:
-          - name: MONGO_CONNECTION_STRING
+          - name: POSTGRES_HOST
             valueFrom:
               configMapKeyRef:
-                name: order-manager-config
-                key: MONGO_CONNECTION_STRING
-
+                name: customer-ms-config
+                key: POSTGRES_HOST
+          - name: POSTGRES_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: customer-ms-config
+                key: POSTGRES_PORT
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: customer-ms-config
+                key: POSTGRES_DB
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: customer-ms-config
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: customer-ms-config
+                key: POSTGRES_PASSWORD
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-order-manager
+  name: svc-customer-ms
 spec:
   type: LoadBalancer
   selector:
-    app: order-manager
+    app: customer-ms
   ports:
     - protocol: TCP
       port: 80
