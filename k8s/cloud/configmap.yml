@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: order-manager-config
+  name: customer-ms-config
 data:
   POSTGRES_HOST: database-1.cruc02goorhv.us-east-1.rds.amazonaws.com
   POSTGRES_PORT: "5432"
