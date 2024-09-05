@@ -16,17 +16,17 @@ spec:
       - name: customer-ms
         image: 975050002971.dkr.ecr.us-east-1.amazonaws.com/customer-ms:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3004
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 3004
           initialDelaySeconds: 15
           periodSeconds: 60
         readinessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 3004
           initialDelaySeconds: 15
         resources:
           requests:
@@ -70,4 +70,4 @@ spec:
   ports:
     - protocol: TCP
       port: 81
-      targetPort: 80
+      targetPort: 3004
