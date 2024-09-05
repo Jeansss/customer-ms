@@ -33,31 +33,31 @@ spec:
             cpu: 10m
         imagePullPolicy: IfNotPresent
         env:
-          - name: POSTGRES_HOST
+          - name: MYSQL_HOST
             valueFrom:
               configMapKeyRef:
                 name: customer-ms-config
-                key: POSTGRES_HOST
-          - name: POSTGRES_PORT
+                key: MYSQL_HOST
+          - name: MYSQL_PORT
             valueFrom:
               configMapKeyRef:
                 name: customer-ms-config
-                key: POSTGRES_PORT
-          - name: POSTGRES_DB
+                key: MYSQL_PORT
+          - name: MYSQL_DB
             valueFrom:
               configMapKeyRef:
                 name: customer-ms-config
-                key: POSTGRES_DB
-          - name: POSTGRES_USER
+                key: MYSQL_DB
+          - name: MYSQL_USER
             valueFrom:
               configMapKeyRef:
                 name: customer-ms-config
-                key: POSTGRES_USER
-          - name: POSTGRES_PASSWORD
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
             valueFrom:
               configMapKeyRef:
                 name: customer-ms-config
-                key: POSTGRES_PASSWORD
+                key: MYSQL_PASSWORD
 ---
 apiVersion: v1
 kind: Service
@@ -69,5 +69,5 @@ spec:
     app: customer-ms
   ports:
     - protocol: TCP
-      port: 80
+      port: 81
       targetPort: 80
