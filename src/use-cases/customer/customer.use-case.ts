@@ -4,6 +4,7 @@ import { CustomerFactoryService } from "./customer-factory.service";
 import { CustomerDTO } from "src/dto/customer.dto";
 import { Customer } from "src/frameworks/data-services/mysql/entities/customer.model";
 import { CustomerRepositoryImpl } from "src/frameworks/data-services/mysql/gateways/customer.repository";
+import { CustomerInfoDTO } from "src/dto/customer-info.dto";
 
 @Injectable()
 export class CustomerUseCases {
@@ -35,6 +36,7 @@ export class CustomerUseCases {
 
     async createCustomer(customerDTO: CustomerDTO): Promise<Customer> {
         const newCustomer = this.customerFactoryService.createNewCustomer(customerDTO);
+        newCustomer.status = 'active';
         return this.dataServices.customers.create(newCustomer);
     }
 
@@ -46,6 +48,12 @@ export class CustomerUseCases {
     async delete(customerId: string) {
         const foundCustomer = await this.getCustomerById(customerId);
         this.dataServices.customers.delete(customerId);
+    }
+
+    async inactivateCustomer(customerId: string, customerInfo: CustomerInfoDTO): Promise<Customer> {
+        const foundCustomer = await this.getCustomerById(customerId);
+        foundCustomer.status = 'inactive';
+        return this.dataServices.customers.update(customerId, foundCustomer);
     }
 
 }

@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Delete, HttpStatus, HttpCode, Logger, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CustomerInfoDTO } from 'src/dto/customer-info.dto';
 import { CustomerDTO } from 'src/dto/customer.dto';
 import { Customer } from 'src/frameworks/data-services/mongo/entities/customer.model';
 import { CustomerUseCases } from 'src/use-cases/customer/customer.use-case';
@@ -81,4 +82,16 @@ export class CustomerController {
         this.logger.log(`deleteCustomer(string) - Start`);
         await this.customerUseCases.delete(customerId);
     }
+
+    /**
+     * 
+     * @param customerId The customer ID
+     * @returns 
+     */
+    @Post('/inactivate/:customerId')
+    async inactivateCustomer(@Param('customerId') customerId: string, @Body() customerInfo: CustomerInfoDTO ): Promise<void> {
+        this.logger.log(`inactivateCustomer(string) - Start`);
+        await this.customerUseCases.inactivateCustomer(customerId, customerInfo);
+    }
+
 }

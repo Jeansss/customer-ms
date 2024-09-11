@@ -10,4 +10,6 @@ export class Customer {
     cpf: string;
     @Column()
     email: string;
+    @Column()
+    status: string;
 }
