@@ -10,10 +10,10 @@ import { Customer } from './frameworks/data-services/mysql/entities/customer.mod
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'database-2.cruc02goorhv.us-east-1.rds.amazonaws.com',
-      port: 3306,
-      username: 'admin',
-      password: 'Nowadays*557fazom65',
+      host: process.env.MYSQL_HOST,
+      port: parseInt(process.env.MYSQL_PORT, 10),
+      username: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
       entities: [Customer],
       database: 'customer',
       synchronize: true,
