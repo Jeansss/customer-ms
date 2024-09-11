@@ -32,32 +32,32 @@ spec:
           requests:
             cpu: 10m
         imagePullPolicy: Always
-        env:
-          - name: MYSQL_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: customer-ms-config
-                key: MYSQL_HOST
-          - name: MYSQL_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: customer-ms-config
-                key: MYSQL_PORT
-          - name: MYSQL_DB
-            valueFrom:
-              configMapKeyRef:
-                name: customer-ms-config
-                key: MYSQL_DB
-          - name: MYSQL_USER
-            valueFrom:
-              configMapKeyRef:
-                name: customer-ms-config
-                key: MYSQL_USER
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: customer-ms-config
-                key: MYSQL_PASSWORD
+        # env:
+        #   - name: MYSQL_HOST
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: customer-ms-config
+        #         key: MYSQL_HOST
+        #   - name: MYSQL_PORT
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: customer-ms-config
+        #         key: MYSQL_PORT
+        #   - name: MYSQL_DB
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: customer-ms-config
+        #         key: MYSQL_DB
+        #   - name: MYSQL_USER
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: customer-ms-config
+        #         key: MYSQL_USER
+        #   - name: MYSQL_PASSWORD
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: customer-ms-config
+        #         key: MYSQL_PASSWORD
 ---
 apiVersion: v1
 kind: Service

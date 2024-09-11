@@ -3,8 +3,10 @@ kind: ConfigMap
 metadata:
   name: customer-ms-config
 data:
-  MYSQL_HOST: database-2.cruc02goorhv.us-east-1.rds.amazonaws.com
-  MYSQL_PORT: "3306"
-  MYSQL_DB: database-2
-  MYSQL_USER: admin
-  MYSQL_PASSWORD: Nowadays*557fazom65
+  HOST: test
+  PORT: test
+  DB: test
+  USER: test
+  PASSWORD: test
+
+
